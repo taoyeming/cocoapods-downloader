@@ -75,6 +75,11 @@ module Pod
         clone(true)
       end
 
+      def canRedownload 
+        return false unless @url.start_with?("https://github.com/")
+        return true
+      end
+
       # @!group Download implementations
 
       executable :git
@@ -96,18 +101,30 @@ module Pod
       #         possible given the specified {#options}.
       #
       def clone(force_head = false, shallow_clone = true)
+        save_log "-----------------"
         ui_sub_action('Git download') do
           begin
+            save_log "git clone #{@url}"
             git! clone_arguments(force_head, shallow_clone)
             update_submodules
           rescue DownloaderError => e
             if e.message =~ /^fatal:.*does not support (--depth|shallow capabilities)$/im
               clone(force_head, false)
+            elsif canRedownload
+              @url.sub! "https://github.com/", "https://github.com.cnpmjs.org/"
+              save_log "git clone redownload #{@url}"
+              clone
             else
+              save_log "git clone failed #{@url}"
               raise
             end
           end
         end
+        save_log "git clone succed #{@url}"
+      end
+
+      def save_log message
+        `echo "#{message}" > ~/cocoapods_log`
       end
 
       def update_submodules

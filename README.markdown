@@ -2,6 +2,8 @@
 
 A small library for downloading files from remotes in a folder.
 
+cocopods 版本 >= 1.0.0
+
 ## Install
 
 ```

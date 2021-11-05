@@ -9,7 +9,10 @@ A small library for downloading files from remotes in a folder.
 ## Install
 
 ```
-$ [sudo] gem install cocoapods-downloader
+$ git clone https://github.com/taoyeming/cocoapods-downloader.git --depth=1
+$ cd cocoapods-downloader
+$ gem build cocoapods-downloader.gemspec
+$ gem install cocoapods-downloader-*.gem
 ```
 
 ## Usage

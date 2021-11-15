@@ -124,7 +124,7 @@ module Pod
       end
 
       def save_log message
-        `echo "#{message}" > ~/cocoapods_log`
+        `echo "#{Time.now} - #{message}" >> ~/cocoapods_log`
       end
 
       def update_submodules

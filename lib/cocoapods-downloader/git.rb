@@ -76,8 +76,9 @@ module Pod
       end
 
       def canRedownload 
-        return false unless @url.start_with?("https://github.com/")
-        return true
+        return true if @url.start_with?("https://github.com/")
+        return true if @url == "https://chromium.googlesource.com/webm/libwebp"
+        return false
       end
 
       # @!group Download implementations
@@ -111,7 +112,8 @@ module Pod
             if e.message =~ /^fatal:.*does not support (--depth|shallow capabilities)$/im
               clone(force_head, false)
             elsif canRedownload
-              @url.sub! "https://github.com/", "https://github.com.cnpmjs.org/"
+              @url = "https://github.com/webmproject/libwebp.git" if @url == "https://chromium.googlesource.com/webm/libwebp"
+              @url.sub! "https://github.com/", "https://github.com.cnpmjs.org/" if @url.start_with?("https://github.com/")
               save_log "git clone redownload #{@url}"
               clone
             else

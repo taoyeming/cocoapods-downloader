@@ -52,6 +52,7 @@ GEM
       ruby-progressbar (~> 1.7)
       unicode-display_width (~> 1.0, >= 1.0.1)
     ruby-progressbar (1.7.5)
+    rugged (1.2.0)
     safe_yaml (1.0.4)
     simplecov (0.9.1)
       docile (~> 1.1.0)
@@ -78,6 +79,7 @@ DEPENDENCIES
   rake
   rexml (~> 3.2.5)
   rubocop
+  rugged
   simplecov
   vcr
   webmock (< 1.9)

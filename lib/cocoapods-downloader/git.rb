@@ -106,6 +106,7 @@ module Pod
         ui_sub_action('Git download') do
           begin
             save_log "git clone #{@url}"
+            `rm -rf #{target_path}`
             git! clone_arguments(force_head, shallow_clone)
             update_submodules
           rescue DownloaderError => e
@@ -130,9 +131,33 @@ module Pod
       end
 
       def update_submodules
+        return initsubmodule(target_path, "https://github.com/", "https://github.com.cnpmjs.org/") if @url.start_with?("https://github.com.cnpmjs.org/")
         return unless options[:submodules]
         target_git %w(submodule update --init --recursive)
       end
+
+
+      def initsubmodule(path, url, replaceurl)
+        path = "#{path}"
+        require 'rugged'
+        path = path.chop if path.end_with?("/")
+    
+        repo = Rugged::Repository.new(path)
+        return if repo.nil? || repo.empty?
+        return if repo.submodules.count < 1
+    
+        for submodule in repo.submodules
+          repo.submodules.update(submodule.name, {:url => submodule.url.gsub!(url, replaceurl)})
+        end
+    
+        `git -C #{path} submodule update --init`
+    
+        for submodule in repo.submodules
+          submodulePath = path + "/" + submodule.path
+          initsubmodule(submodulePath, url, replaceurl)
+        end
+      end
+
 
       # The arguments to pass to `git` to clone the repo.
       #

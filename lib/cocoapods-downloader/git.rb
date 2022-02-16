@@ -114,7 +114,7 @@ module Pod
               clone(force_head, false)
             elsif canRedownload
               @url = "https://github.com/webmproject/libwebp.git" if @url == "https://chromium.googlesource.com/webm/libwebp"
-              @url.sub! "https://github.com/", "https://github.com.cnpmjs.org/" if @url.start_with?("https://github.com/")
+              @url.sub! "https://github.com/", "https://ghproxy.com/https://github.com/" if @url.start_with?("https://github.com/")
               save_log "git clone redownload #{@url}"
               clone
             else
@@ -131,7 +131,7 @@ module Pod
       end
 
       def update_submodules
-        return initsubmodule(target_path, "https://github.com/", "https://github.com.cnpmjs.org/") if @url.start_with?("https://github.com.cnpmjs.org/")
+        return initsubmodule(target_path, "https://github.com/", "https://ghproxy.com/https://github.com/") if @url.start_with?("https://ghproxy.com/https://github.com/")
         return unless options[:submodules]
         target_git %w(submodule update --init --recursive)
       end

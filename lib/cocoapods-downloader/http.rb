@@ -30,7 +30,7 @@ module Pod
           curl! parameters
         rescue DownloaderError => e
           if canRedownload
-            @url.sub! "https://github.com/", "https://github.com.cnpmjs.org/"
+            @url.sub! "https://github.com/", "https://ghproxy.com/https://github.com/"
             save_log "curl download redownload #{@url}"
             download_file(full_filename)
           else

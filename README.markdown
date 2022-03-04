@@ -7,6 +7,8 @@ cocopods 版本 >= 1.0.0
 ## Install
 
 ```
+$ brew install cmake
+$ brew install pkg-config
 $ gem uninstall cocoapods-downloader // 删除所有本地已安装 cocoapods-downloader版本
 $ git clone https://github.com/taoyeming/cocoapods-downloader.git --depth=1
 $ cd cocoapods-downloader
